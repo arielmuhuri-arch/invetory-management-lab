@@ -1,47 +1,41 @@
 # Inventory Management System
 
-## Description
+## Overview
 
-This project is an inventory management system built with Flask for the backend API and a simple CLI client for interacting with the service.
+This repository contains a Python-based Inventory Management System built with a Flask REST API and a simple command-line interface (CLI).
 
-It supports CRUD operations for inventory items, plus a barcode lookup feature using the OpenFoodFacts API.
+The application allows users to manage inventory items with create, read, update, and delete (CRUD) operations, and it integrates with the OpenFoodFacts API for barcode-based product lookup.
 
-The codebase includes:
+## Project Contents
 
-- `app.py` — Flask REST API server
-- `cli.py` — CLI client that talks to the API
-- `test_app.py` — unit tests for API endpoints
-- `requirements.txt` — required Python dependencies
+- `app.py` — Flask API server with inventory routes and external barcode search.
+- `cli.py` — CLI application that communicates with the Flask API.
+- `test_app.py` — Unit tests for key API behavior.
+- `requirements.txt` — Python dependencies required for the project.
+- `README.md` — Project documentation.
+- `venv/` — Local virtual environment (excluded from version control).
 
 ## Features
 
-- View all inventory items
-- Add new inventory items
-- Update existing inventory items
-- Delete inventory items
-- Search an item using an external barcode lookup API
-- CLI interface for user interaction
-- Unit tests for API functionality
-
-## Project Structure
-
-- `app.py` — defines the Flask application and routes
-- `cli.py` — CLI menu to call the API endpoints
-- `test_app.py` — tests API endpoints with Flask's test client
-- `requirements.txt` — package dependencies for the environment
-- `venv/` — local virtual environment (should be ignored in Git)
+- Retrieve all inventory items.
+- Add new inventory items.
+- Update inventory items by ID.
+- Delete inventory items by ID.
+- Search for product details using a barcode via OpenFoodFacts.
+- CLI interface for easy interaction without a web browser.
+- Unit tests for API endpoints.
 
 ## API Endpoints
 
-The Flask API runs on `http://127.0.0.1:5000` by default.
+The API runs on `http://127.0.0.1:5000` by default.
 
-- `GET /` — health check endpoint
-- `GET /items` — returns the full inventory list
-- `POST /items` — adds a new inventory item
-- `GET /items/<id>` — returns one item by ID
-- `PATCH /items/<id>` — updates one item by ID
-- `DELETE /items/<id>` — deletes one item by ID
-- `GET /search/<barcode>` — fetches product details from OpenFoodFacts by barcode
+- `GET /` — Health check endpoint.
+- `GET /items` — Retrieve all inventory items.
+- `POST /items` — Add a new inventory item.
+- `GET /items/<int:id>` — Get a single item by ID.
+- `PATCH /items/<int:id>` — Update an item by ID.
+- `DELETE /items/<int:id>` — Remove an item by ID.
+- `GET /search/<barcode>` — Lookup product details by barcode.
 
 ## Installation
 
@@ -53,48 +47,52 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Running the Application
+## Running the API
 
-1. Start the API server:
+Start the Flask server first:
 
 ```bash
 source venv/bin/activate
 python3 app.py
 ```
 
-2. Open a second terminal and run the CLI client:
+The server will listen on `http://127.0.0.1:5000`.
+
+## Running the CLI
+
+Open another terminal, activate the virtual environment, and run:
 
 ```bash
 source venv/bin/activate
 python3 cli.py
 ```
 
-The CLI uses the API server at `http://127.0.0.1:5000`, so the Flask app must be running first.
-
-## Example CLI Flow
-
-1. Choose `1` to view all items.
-2. Choose `2` to add a new item.
-3. Choose `3` to search by barcode.
-4. Choose `4` to exit.
+Use the menu to view items, add items, search by barcode, or exit.
 
 ## Testing
 
-Run the unit tests with:
+Run the test suite with:
 
 ```bash
 source venv/bin/activate
 python3 -m pytest -q
 ```
 
+## Example Usage
+
+1. Start the API server using `python3 app.py`.
+2. Launch the CLI in another terminal with `python3 cli.py`.
+3. Choose `1` to list items, `2` to add an item, or `3` to search by barcode.
+4. Exit by choosing `4`.
+
 ## Troubleshooting
 
-- If `python3 cli.py` reports a connection error, make sure `app.py` is running.
-- Use `python3 -m pytest -q` instead of `python3 pytest`.
-- If the CLI cannot connect, verify the API server is listening on `127.0.0.1:5000`.
+- If the CLI reports a connection error, make sure the Flask API is running.
+- Use `python3 -m pytest -q` to run tests, not `python3 pytest`.
+- Confirm the server is listening on `127.0.0.1:5000` if external calls fail.
 
 ## Notes
 
-- Keep the virtual environment out of version control by using `.gitignore`.
-- The CLI includes error handling for failed API requests.
-- This repository is ready for further enhancements, such as persistent storage and user authentication.
+- The project currently uses in-memory storage for inventory items.
+- The barcode lookup route relies on the OpenFoodFacts API for real-time product information.
+- For production use, replace in-memory storage with a database and add authentication.
